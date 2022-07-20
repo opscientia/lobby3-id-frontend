@@ -1,0 +1,71 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+  
+.cool-button {
+  margin: 20px;
+  background-color: rgba(54, 57, 102, 0.534);
+  color: white;
+  border: none;
+  font-size: 20px;
+  height:60px;
+  width: 150;
+}
+
+.cool-button:hover {
+  border: 1px dashed limegreen;
+  color: limegreen;
+  border-radius: 3px;
+  
+}
+
+.return-button:hover {
+  cursor: pointer;
+}
+
+.address-truncated {
+  margin: 20px;
+  background-color: rgba(54, 57, 102, 0.534);
+  border: none;
+  color: lightgrey;
+  border-radius: 30px;
+  position: fixed;
+  top:0px;
+  right:0px;
+  font-size: 24px;
+  height: 42px;
+  width: 150px;
+}
+
+.connect-wallet {
+  margin: 20px;
+  /* background-color: rgba(54, 57, 102, 0.534);
+  border: 1px dashed magenta;
+  color: magenta;
+  border-radius: 3px; */
+  position: fixed;
+  top:0px;
+  right:0px;
+  /* font-size: 20px;
+  height:60px;
+  width: 150; */
+}
+
+.connect-wallet:hover {
+  border: 1px dashed yellow;
+  color: yellow;
+  border-radius: 3px;
+  
+}
+
+.message {
+  font-size: 13px;
+  max-width: 600px;
+  max-height: 1000px;
+}
