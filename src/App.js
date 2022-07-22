@@ -12,7 +12,7 @@ import { useConnect, useAccount, useNetwork } from "wagmi";
 // import { desiredChain } from "./constants/desiredChain";
 import { ChainSwitcher, ChainSwitcherModal, useDesiredChain } from "./components/chain-switcher";
 import Error from "./components/errors.js";
-import ReturnButton from './components/atoms/ReturnButton'
+import BigButton from './components/atoms/BigButton'
 
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
         )}
         <Router>
         <Routes>
-          <Route path={"/"} element={<ReturnButton />} 
+          <Route path={"/"} element={<BigButton />} 
           />
           <Route path={"/verified"} element={
               <>

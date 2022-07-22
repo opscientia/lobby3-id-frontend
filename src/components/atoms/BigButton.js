@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 
-const ReturnButton = (props) => {
+const BigButton = (props) => {
   const { data: account } = useAccount();
   const { data, error, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
@@ -10,15 +10,6 @@ const ReturnButton = (props) => {
       window.location.href = `http://localhost:3000/register?address=${account.address}&signature=${data}`;
     },
   })
-  // const [redirectingSiteUrl, setRedirectingSiteUrl] = useState()
-
-  // useEffect(() => {
-  //   const siteUrlTemp = sessionStorage.getItem('signUpWithHoloSiteUrl')
-  //   if (siteUrlTemp) {
-  //     setRedirectingSiteUrl(siteUrlTemp)
-  //   }
-  // }, [props])
-
   // Get secret message to sign from server
   async function getSecretMessage() {
     const resp = await fetch(
@@ -28,7 +19,6 @@ const ReturnButton = (props) => {
   }
 
   async function handleClick() {
-    // sessionStorage.removeItem('signUpWithHoloSiteUrl');
     const msg = await getSecretMessage()
     signMessage({message: msg})
   }
@@ -44,4 +34,4 @@ const ReturnButton = (props) => {
   );
 };
 
-export default ReturnButton;
+export default BigButton;
