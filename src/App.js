@@ -13,6 +13,7 @@ import { useConnect, useAccount, useNetwork } from "wagmi";
 import { ChainSwitcher, ChainSwitcherModal, useDesiredChain } from "./components/chain-switcher";
 import Error from "./components/errors.js";
 import BigButton from './components/atoms/BigButton'
+import Verified from './components/Verified'
 
 
 function App() {
@@ -55,16 +56,8 @@ function App() {
         )}
         <Router>
         <Routes>
-          <Route path={"/"} element={<BigButton />} 
-          />
-          <Route path={"/verified"} element={
-              <>
-                <p>
-                Verification succeeded!
-                </p>
-              </>
-            } 
-          />
+          <Route path={"/"} element={<BigButton />} />
+          <Route path={"/verified"} element={<Verified />} />
         </Routes>
       </Router>
       </div>

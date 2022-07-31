@@ -3,24 +3,30 @@ import { useAccount, useSignMessage } from 'wagmi'
 
 const BigButton = (props) => {
   const { data: account } = useAccount();
-  const { data, error, isLoading, signMessage } = useSignMessage({
+  const { data, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
-      console.log('successful signature')
-      console.log('')
       window.location.href = `http://localhost:3000/register?address=${account.address}&signature=${data}`;
     },
   })
+  const [error, setError] = useState(undefined)
   // Get secret message to sign from server
   async function getSecretMessage() {
     const resp = await fetch(
       `http://localhost:3000/initialize?address=${account.address}`
     )
-    return (await resp.json()).message
+    const secret = (await resp.json()).message
+    localStorage.setItem('holoTempSecret', secret)
+    return secret
   }
 
   async function handleClick() {
     const msg = await getSecretMessage()
-    signMessage({message: msg})
+    if (msg) {
+      signMessage({message: msg})
+    }
+    else {
+      setError('Could not retrieve message to sign.')
+    }
   }
 
   return (
@@ -30,6 +36,11 @@ const BigButton = (props) => {
           Verify yourself
         </div>
       </div>
+      {error && (
+        <p>
+          Error: {error}
+        </p>
+      )}
     </>
   );
 };
