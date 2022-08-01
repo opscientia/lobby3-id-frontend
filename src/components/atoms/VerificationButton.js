@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 
-const BigButton = (props) => {
+const VerificationButton = (props) => {
   const { data: account } = useAccount();
   const { data, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
@@ -45,4 +45,4 @@ const BigButton = (props) => {
   );
 };
 
-export default BigButton;
+export default VerificationButton;
