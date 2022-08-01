@@ -14,14 +14,13 @@ const VerificationButton = (props) => {
     const resp = await fetch(
       `http://localhost:3000/initialize?address=${account.address}`
     )
-    const secret = (await resp.json()).message
-    localStorage.setItem('holoTempSecret', secret)
-    return secret
+    return (await resp.json()).message
   }
 
   async function handleClick() {
     const msg = await getSecretMessage()
     if (msg) {
+      localStorage.setItem('holoTempSecret', msg)
       signMessage({message: msg})
     }
     else {

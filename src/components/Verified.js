@@ -12,17 +12,9 @@ const Verified = () => {
     async function getAndSetCredentials() {
       setError(undefined)
       try {
+        const secret = localStorage.getItem('holoTempSecret')
         const resp = await fetch(
-          'http://localhost:3000/register/getCredentials', 
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              secret: localStorage.getItem('holoTempSecret')
-            })
-          }
+          `http://localhost:3000/register/credentials?secret=${secret}`
         )
         const data = await resp.json()
         if (data.error) {
