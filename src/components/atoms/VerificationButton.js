@@ -30,10 +30,9 @@ const VerificationButton = (props) => {
 
   return (
     <>
-      <div onClick={handleClick} className="return-button x-button secondary">
-        <div className="wallet-text">
-          Verify yourself
-        </div>
+      {/* <div onClick={handleClick} className="verification-button x-button secondary"> */}
+      <div onClick={handleClick} className="verification-button">
+        Verify yourself
       </div>
       {error && (
         <p>
