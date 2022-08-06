@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 
+import {
+  storeCredentials,
+} from '../utils/secrets'
+
 // Display success message, and retrieve user credentials to store in browser
 const Verified = () => {
   const [error, setError] = useState();
+  const [creds, setCreds] = useState();
 
   useEffect(() => {
     if (!localStorage.getItem('holoTempSecret')) {
@@ -20,10 +25,9 @@ const Verified = () => {
         if (data.error) {
           setError(data.error)
         } else {
-          const creds = data
-          for (const credName of Object.keys(creds)) {
-            localStorage.setItem(`holocred-${credName}`, creds[credName])
-          }
+          const credsTemp = data
+          setCreds(credsTemp)
+          storeCredentials(credsTemp)
           localStorage.removeItem('holoTempSecret')
         }
       }
@@ -35,11 +39,16 @@ const Verified = () => {
     getAndSetCredentials()
   }, [])
 
-    return (
-      <>
-        {error ? <p>{error}</p> : <p>Verification succeeded!</p>}
-      </>
-    )
-  }
+  return (
+    <>
+      {error ? <p>{error}</p> : <p>Verification succeeded!</p>}
+      {creds && Object.keys(creds).map((key, index) => {
+        return (
+          <p key={index}>{key}: {creds[key]}</p>
+        )}
+      )}
+    </>
+  )
+}
 
 export default Verified;
