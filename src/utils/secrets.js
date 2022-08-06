@@ -90,7 +90,6 @@ async function getHoloCredentials() {
  * @param credentials
  */
 function setHoloCredentials(credentials) {
-  console.log('Posting message. Setting credentials')
   window.postMessage({
     message: "setHoloCredentials",
     credentials: credentials
