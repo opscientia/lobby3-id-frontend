@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 
 const VerificationButton = (props) => {
-  const { data: account } = useAccount();
+  const { address } = useAccount();
   const { data, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
-      window.location.href = `http://localhost:3000/register?address=${account.address}&signature=${data}`;
+      window.location.href = `http://localhost:3000/register?address=${address}&signature=${data}`;
     },
   })
   const [error, setError] = useState(undefined)
   // Get secret message to sign from server
   async function getSecretMessage() {
     const resp = await fetch(
-      `http://localhost:3000/initialize?address=${account.address}`
+      `http://localhost:3000/initialize?address=${address}`
     )
     return (await resp.json()).message
   }
