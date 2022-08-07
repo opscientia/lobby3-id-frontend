@@ -110,7 +110,15 @@ async function encryptCredentials(decryptedCreds) {
  */
 export async function storeCredentials(credentials) {
   const encryptedCreds = await encryptCredentials(credentials);
-  setHoloCredentials(encryptedCreds);
+
+  console.log('Storing credentials...');
+  console.log(credentials);
+  console.log(encryptedCreds);
+
+  setHoloCredentials({
+    unencryptedCreds: credentials, 
+    encryptedCreds: encryptedCreds
+  });
 }
 
 /**
