@@ -14,6 +14,7 @@ import { ChainSwitcher, ChainSwitcherModal, useDesiredChain } from "./components
 import Error from "./components/errors.js";
 import VerificationButton from './components/atoms/VerificationButton'
 import Verified from './components/Verified'
+import Creds from './components/Creds'
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <Routes>
           <Route path={"/"} element={<VerificationButton />} />
           <Route path={"/verified"} element={<Verified />} />
+          <Route path={"/creds"} element={<Creds />} />
         </Routes>
       </Router>
       </div>

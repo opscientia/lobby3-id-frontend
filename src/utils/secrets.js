@@ -73,13 +73,14 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
  */
 export async function getHoloCredentials() {
     window.postMessage({ message: 'getHoloCredentials' });
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
       const credsEl = document.getElementById('injected-holonym-creds');
       if (credsEl && credsEl.textContent) {
         return credsEl.textContent;
       }
       await sleep(200);
     }
+    return;
 }
 
 /**
@@ -124,6 +125,9 @@ export async function storeCredentials(credentials) {
  */
 export async function getAndDecryptCredentials() {
   const encryptedCreds = await getHoloCredentials();
+  if (!encryptedCreds) {
+    return;
+  }
   const accounts = await getAccounts();
   const decryptedCreds = await decrypt(accounts[0], encryptedCreds);
   return JSON.parse(decryptedCreds);

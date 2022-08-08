@@ -56,6 +56,15 @@
   color: #e1eb81;
 }
 
+.encrypted-creds {
+  max-width: 50vw;
+  display: inline-block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 10px;
+}
+
 .address-truncated {
   margin: 20px;
   background-color: rgba(54, 57, 102, 0.534);
