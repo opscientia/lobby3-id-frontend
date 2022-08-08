@@ -67,22 +67,19 @@ export async function decrypt(account, encryptedMessage) {
 // Holonym browser extension helper functions
 // -----------------------------
 
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 /**
  * Request Holo creds from browser extension. 
  */
-async function getHoloCredentials() {
-  return new Promise((resolve) => {
+export async function getHoloCredentials() {
     window.postMessage({ message: 'getHoloCredentials' });
-    setTimeout(() => {
+    for (let i = 0; i < 10; i++) {
       const credsEl = document.getElementById('injected-holonym-creds');
-      if (!credsEl) resolve();
-      const credsStr = credsEl.textContent;
-      if (credsStr) {
-        resolve(credsStr);
+      if (credsEl && credsEl.textContent) {
+        return credsEl.textContent;
       }
-      resolve();
-    }, 50);
-  });
+      await sleep(200);
+    }
 }
 
 /**
