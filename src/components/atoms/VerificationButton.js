@@ -11,10 +11,14 @@ const VerificationButton = (props) => {
   const [error, setError] = useState(undefined)
   // Get secret message to sign from server
   async function getSecretMessage() {
-    const resp = await fetch(
-      `http://localhost:3000/initialize?address=${address}`
-    )
-    return (await resp.json()).message
+    try {
+      const resp = await fetch(
+        `http://localhost:3000/initialize?address=${address}`
+      )
+      return (await resp.json()).message
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async function handleClick() {
