@@ -42,6 +42,7 @@ const Verified = () => {
   return (
     <>
       {error ? <p>{error}</p> : <p>Verification succeeded!</p>}
+      {/* TODO: Delete creds from this page. They're unnecessary */}
       {creds && Object.keys(creds).map((key, index) => {
         return (
           <p key={index}>{key}: {creds[key]}</p>

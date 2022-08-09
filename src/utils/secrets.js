@@ -85,7 +85,7 @@ export async function getHoloCredentials() {
 
 /**
  * Tell Holonym browser extension to store the provided credentials.
- * @param credentials
+ * @param credentials Should include encrypted and unencrypted credentials
  */
 function setHoloCredentials(credentials) {
   window.postMessage({
@@ -109,9 +109,7 @@ async function encryptCredentials(decryptedCreds) {
 export async function storeCredentials(credentials) {
   const encryptedCreds = await encryptCredentials(credentials);
 
-  console.log('Storing credentials...');
-  console.log(credentials);
-  console.log(encryptedCreds);
+  console.log('Storing Holonym credentials');
 
   setHoloCredentials({
     unencryptedCreds: credentials, 
