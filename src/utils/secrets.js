@@ -1,86 +1,23 @@
 /**
- * Helpers for interacting with MetaMask and Holonym browser extension
+ * Helpers for interacting with Holonym browser extension
  */
 
-import {bufferToHex as ethUtilBufferToHex} from 'ethereumjs-util';
-import { encrypt as sigUtilEncrypt } from '@metamask/eth-sig-util';
+const extensionId = "jmaehplbldnmbeceocaopdolmgbnkoga";
 
-
-// -----------------------------
-// MetaMask helper functions
-// -----------------------------
-
-export async function getAccounts() {
-  try {
-    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-    return accounts;
-  } catch (err) {
-    if (err.code === 4001) {
-      // EIP-1193 userRejectedRequest error
-      console.log("Please connect to MetaMask.");
-    } else {
-      console.error(err);
-    }
-  }
-}
-
-export async function getEncryptionPublicKey(account) {
-  try {
-    const encryptionPubKey = await window.ethereum.request({
-      method: "eth_getEncryptionPublicKey",
-      params: [account], // you must have access to the specified account
-    });
-    return encryptionPubKey;
-  } catch (err) {
-    if (err.code === 4001) {
-      // EIP-1193 userRejectedRequest error
-      console.log("We can't encrypt anything without the key.");
-    } else {
-      console.error(err);
-    }
-  }
-}
-
-export async function encrypt(encryptionPubKey, message = "hello world!") {
-  // const encryptedData = sigUtil.encrypt({
-  const encryptedData = sigUtilEncrypt({
-    publicKey: encryptionPubKey,
-    data: message,
-    version: "x25519-xsalsa20-poly1305",
-  })
-  const encryptedDataAsStr = JSON.stringify(encryptedData)
-  return ethUtilBufferToHex(Buffer.from(encryptedDataAsStr, "utf8"));
-}
-
-export async function decrypt(account, encryptedMessage) {
-  try {
-    return await window.ethereum.request({
-      method: "eth_decrypt",
-      params: [encryptedMessage, account],
-    });
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-// -----------------------------
-// Holonym browser extension helper functions
-// -----------------------------
-
-const sleep = ms => new Promise(r => setTimeout(r, ms));
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 /**
- * Request Holo creds from browser extension. 
+ * Request Holo creds from browser extension.
  */
 export async function getHoloCredentials() {
-    window.postMessage({ message: 'getHoloCredentials' });
-    for (let i = 0; i < 100; i++) {
-      const credsEl = document.getElementById('injected-holonym-creds');
-      if (credsEl && credsEl.textContent) {
-        return credsEl.textContent;
-      }
-      await sleep(200);
+  window.postMessage({ message: "getHoloCredentials" });
+  for (let i = 0; i < 100; i++) {
+    const credsEl = document.getElementById("injected-holonym-creds");
+    if (credsEl && credsEl.textContent) {
+      return credsEl.textContent;
     }
-    return;
+    await sleep(200);
+  }
+  return;
 }
 
 /**
@@ -88,16 +25,58 @@ export async function getHoloCredentials() {
  * @param credentials Should include encrypted and unencrypted credentials
  */
 function setHoloCredentials(credentials) {
-  window.postMessage({
+  const payload = {
     message: "setHoloCredentials",
-    credentials: credentials
+    credentials: credentials,
+  };
+  const callback = (resp) => {
+    if (!resp.success) console.log("!resp.success"); // TODO: Better error handling
+  };
+  chrome.runtime.sendMessage(extensionId, payload, callback);
+}
+
+/**
+ * Request from the Holo browser extension the user's public key.
+ */
+async function getPublicKey() {
+  return new Promise((resolve) => {
+    const message = { message: "getHoloPublicKey" };
+    chrome.runtime.sendMessage(extensionId, message, (resp) => {
+      console.log("secrets: Received public key...");
+      console.log(resp);
+      resolve(resp);
+    });
   });
 }
 
+/**
+ * @param {SubtleCrypto.JWK} publicKey
+ * @param {string} message
+ * @returns {Promise<string>} Encrypted message
+ */
+async function encrypt(publicKey, message = "hello world!") {
+  const algo = {
+    name: "RSA-OAEP", // TODO: Change this to ECDSA. SECP562k1 (?)
+    modulusLength: 4096,
+    publicExponent: new Uint8Array([1, 0, 1]),
+    hash: "SHA-256",
+  };
+  let args = ["jwk", publicKey, algo, false, ["encrypt"]];
+  const pubKeyAsCryptoKey = await window.crypto.subtle.importKey(...args);
+
+  const encoder = new TextEncoder();
+  const encodedMessage = encoder.encode(message);
+  args = ["RSA-OAEP", pubKeyAsCryptoKey, encodedMessage];
+  const encryptedMessage = await window.crypto.subtle.encrypt(...args);
+  const decoder = new TextDecoder("utf-8");
+  return decoder.decode(encryptedMessage);
+}
+
 async function encryptCredentials(decryptedCreds) {
-  const accounts = await getAccounts();
-  const encryptionKey = await getEncryptionPublicKey(accounts[0]);
+  console.log("secrets: Getting public key");
+  const encryptionKey = await getPublicKey();
   const stringifiedCreds = JSON.stringify(decryptedCreds);
+  console.log("secrets: Encrypting credentials");
   const encryptedCreds = await encrypt(encryptionKey, stringifiedCreds);
   return encryptedCreds;
 }
@@ -108,13 +87,8 @@ async function encryptCredentials(decryptedCreds) {
  */
 export async function storeCredentials(credentials) {
   const encryptedCreds = await encryptCredentials(credentials);
-
-  console.log('Storing Holonym credentials');
-
-  setHoloCredentials({
-    unencryptedCreds: credentials, 
-    encryptedCreds: encryptedCreds
-  });
+  console.log("secrets: Storing Holonym credentials");
+  setHoloCredentials(encryptedCreds);
 }
 
 /**
@@ -130,4 +104,3 @@ export async function getAndDecryptCredentials() {
   const decryptedCreds = await decrypt(accounts[0], encryptedCreds);
   return JSON.parse(decryptedCreds);
 }
-
