@@ -37,9 +37,9 @@ const Verified = () => {
   }, []);
 
   // For testing
-  useEffect(() => {
-    storeCredentials({ firstName: "Alice" });
-  }, []);
+  // useEffect(() => {
+  //   storeCredentials({ firstName: "Alice" });
+  // }, []);
 
   return (
     <>
