@@ -4,22 +4,6 @@
 
 const extensionId = "jmaehplbldnmbeceocaopdolmgbnkoga";
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-/**
- * Request Holo creds from browser extension.
- */
-export async function getHoloCredentials() {
-  window.postMessage({ message: "getHoloCredentials" });
-  for (let i = 0; i < 100; i++) {
-    const credsEl = document.getElementById("injected-holonym-creds");
-    if (credsEl && credsEl.textContent) {
-      return credsEl.textContent;
-    }
-    await sleep(200);
-  }
-  return;
-}
-
 /**
  * Request from the Holo browser extension the user's public key.
  */
@@ -74,18 +58,4 @@ export async function storeCredentials(credentials) {
     if (!resp.success) console.log("!resp.success"); // TODO: Better error handling
   };
   chrome.runtime.sendMessage(extensionId, payload, callback);
-}
-
-/**
- * Extract encrypted credentials from page, and request decryption from user
- * @returns Decrypted credentials object
- */
-export async function getAndDecryptCredentials() {
-  const encryptedCreds = await getHoloCredentials();
-  if (!encryptedCreds) {
-    return;
-  }
-  const accounts = await getAccounts();
-  const decryptedCreds = await decrypt(accounts[0], encryptedCreds);
-  return JSON.parse(decryptedCreds);
 }

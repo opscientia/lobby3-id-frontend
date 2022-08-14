@@ -10,12 +10,14 @@ import WalletModal from "./components/atoms/WalletModal";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useConnect, useAccount, useNetwork } from "wagmi";
 // import { desiredChain } from "./constants/desiredChain";
-import { ChainSwitcher, ChainSwitcherModal, useDesiredChain } from "./components/chain-switcher";
+import {
+  ChainSwitcher,
+  ChainSwitcherModal,
+  useDesiredChain,
+} from "./components/chain-switcher";
 import Error from "./components/errors.js";
-import VerificationButton from './components/atoms/VerificationButton'
-import Verified from './components/Verified'
-import Creds from './components/Creds'
-
+import VerificationButton from "./components/atoms/VerificationButton";
+import Verified from "./components/Verified";
 
 function App() {
   const { desiredChain, setDesiredChain } = useDesiredChain();
@@ -31,15 +33,17 @@ function App() {
     });
   }, []);
 
-
   return (
-    
     <div className="App x-section wf-section bg-img">
       <div className="x-container nav w-container">
-        <WalletModal visible={walletModalShowing} setVisible={setWalletModalShowing} blur={true} />
+        <WalletModal
+          visible={walletModalShowing}
+          setVisible={setWalletModalShowing}
+          blur={true}
+        />
         <HomeLogo />
 
-        {(account?.address && account?.connector) ? (
+        {account?.address && account?.connector ? (
           <Address address={account.address} />
         ) : (
           <div className="nav-btn">
@@ -47,21 +51,18 @@ function App() {
               className="wallet-connected nav-button"
               // disabled={!connectors[0].ready}
               // key={connectors[0].id}
-              onClick={()=>setWalletModalShowing(true)}
+              onClick={() => setWalletModalShowing(true)}
             >
-              <div style={{opacity:0.5}}>
-                Connect Wallet
-              </div>
+              <div style={{ opacity: 0.5 }}>Connect Wallet</div>
             </div>
           </div>
         )}
         <Router>
-        <Routes>
-          <Route path={"/"} element={<VerificationButton />} />
-          <Route path={"/verified"} element={<Verified />} />
-          <Route path={"/creds"} element={<Creds />} />
-        </Routes>
-      </Router>
+          <Routes>
+            <Route path={"/"} element={<VerificationButton />} />
+            <Route path={"/verified"} element={<Verified />} />
+          </Routes>
+        </Router>
       </div>
     </div>
   );
