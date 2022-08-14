@@ -27,8 +27,6 @@ async function getPublicKey() {
   return new Promise((resolve) => {
     const message = { message: "getHoloPublicKey" };
     chrome.runtime.sendMessage(extensionId, message, (resp) => {
-      console.log("secrets: Received public key...");
-      console.log(resp);
       resolve(resp);
     });
   });
@@ -56,10 +54,8 @@ async function encrypt(publicKey, message = "hello world!") {
 }
 
 async function encryptCredentials(decryptedCreds) {
-  console.log("secrets: Getting public key");
   const encryptionKey = await getPublicKey();
   const stringifiedCreds = JSON.stringify(decryptedCreds);
-  console.log("secrets: Encrypting credentials");
   const encryptedCreds = await encrypt(encryptionKey, stringifiedCreds);
   return encryptedCreds;
 }
@@ -70,7 +66,6 @@ async function encryptCredentials(decryptedCreds) {
  */
 export async function storeCredentials(credentials) {
   const encryptedCreds = await encryptCredentials(credentials);
-  console.log("secrets: Storing Holonym credentials");
   const payload = {
     message: "setHoloCredentials",
     credentials: encryptedCreds,
