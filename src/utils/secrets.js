@@ -21,21 +21,6 @@ export async function getHoloCredentials() {
 }
 
 /**
- * Tell Holonym browser extension to store the provided credentials.
- * @param credentials Should include encrypted and unencrypted credentials
- */
-function setHoloCredentials(credentials) {
-  const payload = {
-    message: "setHoloCredentials",
-    credentials: credentials,
-  };
-  const callback = (resp) => {
-    if (!resp.success) console.log("!resp.success"); // TODO: Better error handling
-  };
-  chrome.runtime.sendMessage(extensionId, payload, callback);
-}
-
-/**
  * Request from the Holo browser extension the user's public key.
  */
 async function getPublicKey() {
@@ -56,20 +41,18 @@ async function getPublicKey() {
  */
 async function encrypt(publicKey, message = "hello world!") {
   const algo = {
-    name: "RSA-OAEP", // TODO: Change this to ECDSA. SECP562k1 (?)
+    name: "RSA-OAEP",
     modulusLength: 4096,
     publicExponent: new Uint8Array([1, 0, 1]),
     hash: "SHA-256",
   };
   let args = ["jwk", publicKey, algo, false, ["encrypt"]];
   const pubKeyAsCryptoKey = await window.crypto.subtle.importKey(...args);
-
   const encoder = new TextEncoder();
   const encodedMessage = encoder.encode(message);
   args = ["RSA-OAEP", pubKeyAsCryptoKey, encodedMessage];
   const encryptedMessage = await window.crypto.subtle.encrypt(...args);
-  const decoder = new TextDecoder("utf-8");
-  return decoder.decode(encryptedMessage);
+  return JSON.stringify(Array.from(new Uint8Array(encryptedMessage)));
 }
 
 async function encryptCredentials(decryptedCreds) {
@@ -82,13 +65,20 @@ async function encryptCredentials(decryptedCreds) {
 }
 
 /**
- * Encrypt and store the provided credentials
+ * Encrypt and store the provided credentials with the Holonym browser
  * @param {object} credentials creds object from Holonym server
  */
 export async function storeCredentials(credentials) {
   const encryptedCreds = await encryptCredentials(credentials);
   console.log("secrets: Storing Holonym credentials");
-  setHoloCredentials(encryptedCreds);
+  const payload = {
+    message: "setHoloCredentials",
+    credentials: encryptedCreds,
+  };
+  const callback = (resp) => {
+    if (!resp.success) console.log("!resp.success"); // TODO: Better error handling
+  };
+  chrome.runtime.sendMessage(extensionId, payload, callback);
 }
 
 /**
