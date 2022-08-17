@@ -59,3 +59,6 @@ export async function storeCredentials(credentials) {
   };
   chrome.runtime.sendMessage(extensionId, payload, callback);
 }
+
+// TODO: Handle case where user hasn't registered prior to
+// attempting to store credentials

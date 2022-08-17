@@ -37,22 +37,40 @@ const Verified = () => {
   }, []);
 
   // For testing
-  // useEffect(() => {
-  //   storeCredentials({ firstName: "Alice" });
-  // }, []);
+  // storeCredentials({
+  //   firstName: "Alice",
+  //   middleInitial: "C",
+  //   lastName: "Bob",
+  //   streetAddr1: "123",
+  //   streetAddr2: "456",
+  //   city: "New York",
+  //   subdivision: "NY",
+  //   countryCode: "US",
+  //   postalCode: "789",
+  //   birthdate: "1901-01-01",
+  //   completedAt: "00:00:0000",
+  //   serverSignature:
+  //     "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  //   secret: "0x000000000000000000000000000000000000000000000",
+  // });
 
   return (
     <>
-      {error ? <p>{error}</p> : <p>Verification succeeded!</p>}
-      {/* TODO: Delete creds from this page. They're unnecessary */}
-      {creds &&
-        Object.keys(creds).map((key, index) => {
-          return (
-            <p key={index}>
-              {key}: {creds[key]}
-            </p>
-          );
-        })}
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <div>
+          <h3 style={{ textAlign: "center" }}>Almost finished!</h3>
+          <p style={{ maxWidth: "600px", fontSize: "1.1rem" }}>
+            Final steps:
+            <ul>
+              <li>When you see the Holonym popup, login</li>
+              <li>Confirm your credentials</li>
+            </ul>
+            The Holonym extension will then store your encrypted credentials.
+          </p>
+        </div>
+      )}
     </>
   );
 };
