@@ -60,5 +60,13 @@ export async function storeCredentials(credentials) {
   chrome.runtime.sendMessage(extensionId, payload, callback);
 }
 
-// TODO: Handle case where user hasn't registered prior to
-// attempting to store credentials
+// For case where user hasn't registered prior to attempting to store credentials
+export function getIsHoloRegistered() {
+  return new Promise((resolve) => {
+    const payload = {
+      message: "holoGetIsRegistered",
+    };
+    const callback = (resp) => resolve(resp.isRegistered);
+    chrome.runtime.sendMessage(extensionId, payload, callback);
+  });
+}
