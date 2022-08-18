@@ -10,7 +10,7 @@ const Verified = () => {
   const [registered, setRegistered] = useState(false);
 
   useEffect(() => {
-    // getIsHoloRegistered().then((isRegistered) => setRegistered(isRegistered));
+    getIsHoloRegistered().then((isRegistered) => setRegistered(isRegistered));
   }, []);
 
   useEffect(() => {
