@@ -2,14 +2,14 @@
  * Helpers for interacting with Holonym browser extension
  */
 
-const extensionId = "jmaehplbldnmbeceocaopdolmgbnkoga";
+const extensionId = "cilbidmppfndfhjafdlngkaabddoofea";
 
 /**
  * Request from the Holo browser extension the user's public key.
  */
 async function getPublicKey() {
   return new Promise((resolve) => {
-    const message = { message: "getHoloPublicKey" };
+    const message = { command: "getHoloPublicKey" };
     chrome.runtime.sendMessage(extensionId, message, (resp) => {
       resolve(resp);
     });
@@ -51,7 +51,7 @@ async function encryptCredentials(decryptedCreds) {
 export async function storeCredentials(credentials) {
   const encryptedCreds = await encryptCredentials(credentials);
   const payload = {
-    message: "setHoloCredentials",
+    command: "setHoloCredentials",
     credentials: encryptedCreds,
   };
   const callback = (resp) => {
@@ -64,7 +64,7 @@ export async function storeCredentials(credentials) {
 export function getIsHoloRegistered() {
   return new Promise((resolve) => {
     const payload = {
-      message: "holoGetIsRegistered",
+      command: "holoGetIsRegistered",
     };
     const callback = (resp) => resolve(resp.isRegistered);
     chrome.runtime.sendMessage(extensionId, payload, callback);
