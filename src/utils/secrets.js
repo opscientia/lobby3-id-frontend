@@ -4,6 +4,10 @@
 
 const extensionId = "cilbidmppfndfhjafdlngkaabddoofea";
 
+// Max length of encrypt-able string using RSA-OAEP with SHA256 where
+// modulusLength == 4096: 446 characters.
+const maxEncryptableLength = 446;
+
 /**
  * Request from the Holo browser extension the user's public key.
  */
@@ -40,8 +44,19 @@ async function encrypt(publicKey, message = "hello world!") {
 async function encryptCredentials(decryptedCreds) {
   const encryptionKey = await getPublicKey();
   const stringifiedCreds = JSON.stringify(decryptedCreds);
-  const encryptedCreds = await encrypt(encryptionKey, stringifiedCreds);
-  return encryptedCreds;
+  const usingSharding = stringifiedCreds.length > maxEncryptableLength;
+  let encryptedCreds; // array<string> if sharding, string if not sharding
+  if (usingSharding) {
+    encryptedCreds = [];
+    for (let i = 0; i < stringifiedCreds.length; i += maxEncryptableLength) {
+      const shard = stringifiedCreds.substring(i, i + maxEncryptableLength);
+      const encryptedShard = await encrypt(encryptionKey, shard);
+      encryptedCreds.push(encryptedShard);
+    }
+  } else {
+    encryptedCreds = await encrypt(encryptionKey, stringifiedCreds);
+  }
+  return { encryptedCreds: encryptedCreds, sharded: usingSharding };
 }
 
 /**
@@ -49,15 +64,15 @@ async function encryptCredentials(decryptedCreds) {
  * @param {object} credentials creds object from Holonym server
  */
 export async function storeCredentials(credentials) {
-  const encryptedCreds = await encryptCredentials(credentials);
+  const { encryptedCreds, sharded } = await encryptCredentials(credentials);
+
+  // Send encrypted credentials to Holonym extension
   const payload = {
     command: "setHoloCredentials",
+    sharded: sharded,
     credentials: encryptedCreds,
   };
-  const callback = (resp) => {
-    if (!resp.success) console.log("!resp.success"); // TODO: Better error handling
-  };
-  chrome.runtime.sendMessage(extensionId, payload, callback);
+  chrome.runtime.sendMessage(extensionId, payload);
 }
 
 // For case where user hasn't registered prior to attempting to store credentials
