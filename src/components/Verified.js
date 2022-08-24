@@ -3,53 +3,53 @@ import { useAccount, useSignMessage } from "wagmi";
 import { storeCredentials, getIsHoloRegistered } from "../utils/secrets";
 
 const testCreds = {
-  bigCredsSecret: "0xc01653f76c16369f2ceea6941f57846f",
+  bigCredsSecret: "0x39c50479f506505ac61a4c027d9489d1",
   bigCredsSignature:
-    "0x10e751cb9e3458afdf72380bf1d26a953195e09545726ebccf82fb53515c2fe029f1d0defb107a4db019e2e69bbc7b8bb050ee0e697a1d8f92feecdee102a7211c",
+    "0xbaa4d3802f655c159fb810c1678f2f498f1b0cee835ab983135816cfd2e7b449209e86382db2e7014345a0731b74da694c7ccc0a48f36bab04272d8af53008ed1c",
   birthdate: "",
-  birthdateSecret: "0xca4d4368238bc9efcc137482bfff5a5a",
+  birthdateSecret: "0x3ea47c99774b28650195094095674356",
   birthdateSignature:
-    "0xcfcd8920b2b7dbbb55717bad53beca4a0048e8b1c2c4462b68e2fab9491cecf03a468716e12f7d4cec63c466cc9cf8cdf7bc6682853ab4807a70d4d1b61934cd1c",
+    "0xb7192ed3b27e0a746e26cc4bd67a6b9f10e1c42a4274948a916c664b7b09e5ef21ba100d2ac96c53646bf1114cd4394a784206f7535d6d7e6bcf85271abc21501b",
   city: "",
-  citySecret: "0xdba0a98046b916fc8bfe5410357eb303",
+  citySecret: "0x53387a2938c2e68e3f0b288df1a4e158",
   citySignature:
-    "0x99261b497222b2b77198a77c3cbc7c3711a06e1f0f098c69559e69ae92c0f8cb570ceac17319719dd5aaf8fb83db952d537fe1d11abf4acba9a84ef5608132f01b",
-  completedAt: "2022-08-18T17:04:29.000Z",
-  completedAtSecret: "0x4dce2f407bc0599198c8af860417c5a5",
+    "0xb8b1f97823ab2fffdb3b128c177d37531966d459342848bd56295fc792b477f01fb476ef7a2eed33293dc94e3445bc93e7596c909372276d0dde9b5227b323af1c",
+  completedAt: "2022-08-19T16:43:08.000Z",
+  completedAtSecret: "0xa9c767df8ce37b9ee93a8de5c345c0b4",
   completedAtSignature:
-    "0x2eddcddaac730c8d3779c5b676e997205db7a82bc097fe6678bb29e75c2709452f52b120492dcaa9d95d4f8b9afa792f7f6b66446a978c1167abe00784ac25b31b",
+    "0x90826f603a409b7c3d8e315ab79dabdbf1f20f30d5d1ae6a7bcf72252b0903c468855637e930da55f8e0af831b832ab78d1ee6d91cef0b65a3f03e4c2437b0a91b",
   countryCode: "US",
-  countryCodeSecret: "0xbf67cdde85f69044c61a434650eed458",
+  countryCodeSecret: "0xa7b063a76d69133bd60140c4f8e6a9c9",
   countryCodeSignature:
-    "0x573a465b7ad7560be114cb44f7614b814812ce23c853a56d062e4356867330c95f47dcc516c6064b7a66bebe61c46ba51f9942ee44a2a1f472b05de1a70c03f81c",
+    "0x0fb5e166d127a1d07b2594ddeccad80d0439972e2832b328cb6d8ec724c434b22bb61d05ab872346bd8c38d3a6e88e1ec1ca3cc7adbf73c37674280686c17ffb1c",
   firstName: "",
-  firstNameSecret: "0x739c1aab74f5714355cc249bd1ffc919",
+  firstNameSecret: "0x21b4c98dbb9ac588170fec34275a9d6c",
   firstNameSignature:
-    "0x969fc80dfae3f1d90aac7d43893b9c7688ad6a1fff284b65d1b851e26d36d8984a6a7e3945cc9c21ae279a654a78618030459fde57a11e514f731f8fc90747b61c",
+    "0xd3fd3aef76684cc5fa077892e01a17c4ec45817c9f45cbfbb4d478b0191816841e3f36f60fa343e32537456a48525bb55905cd250575158d898b62b7c2aa568c1c",
   lastName: "",
-  lastNameSecret: "0xec4f423ffe4f36f019e6a68a615a34c3",
+  lastNameSecret: "0x02093892c8a92c615c462acbc9045974",
   lastNameSignature:
-    "0x058074160307e78184aa5cb6beb7b972fbe4009d610f3ce1ff64be41f6ee2c717fa738c77aa00dc430d64ea28c1681f53aa7a73a58973e0fc16f2cf7c83c5d7c1b",
+    "0x2080bb5f81d1402e20ec70a117d831a4d0dccc1cc977f92fda9be1045a5a60975a6c8ca886e6164cd73db10a4f81be3ff094e0893190b30d3deb4dfc74d63a391c",
   middleInitial: "",
-  middleInitialSecret: "0x1eb7e2813a78acce8bca1c8005cf83eb",
+  middleInitialSecret: "0x76d9f5a0e9d3d228820af55dd322ac0a",
   middleInitialSignature:
-    "0xb6cb993bac6269953332dec3b9fb05d8cadb05f8988d3d3d6d8fc55e03ef798c6dfb55687fe8193af2765dade476f81ec212ae8f20372d738f86a5dcefdc9f401c",
+    "0xdd2b343ff3da3370c81ee4ff9c16f93e5770f38b8b69c4793f76977d58a9d4467a6727332007e9aa06ab99e58a5b919f678d38db76819677594eef4755b7796a1c",
   postalCode: "",
-  postalCodeSecret: "0x56cf9048b706dd4ae55add67d28cdc0c",
+  postalCodeSecret: "0xb7234c6312a0d097574a83dceffb466f",
   postalCodeSignature:
-    "0x573d1870bfb9d3ddd5fe699f967ea6e4cd3fd93b78d73e024b52218f42cd03322bf08c59eb4957fc8da97578c202da21bc12b32b2b3ac29a2eb4194086eb9d1f1c",
+    "0xd4bc00697126de5f5fe55d781129112218a990024516a14f68ad20837805aa5c630979b57988982dd227b549dd6045faa7f7683f6d76240d6665691b3aac54f11c",
   streetAddr1: "",
-  streetAddr1Secret: "0xe2175b24ce19f298a9a1ec473e50f5b0",
+  streetAddr1Secret: "0xdd56cd2e7366637e57ebbec829cc606a",
   streetAddr1Signature:
-    "0x4952859162323656cba80542c558cae5bd5a93821a70918fcf4e63fc93bb409722416b0355b90a1a7422937ece57e5748bb9817c594eeb1f4cb9457a5c43fd3a1b",
+    "0xeff5c5ffb0c6d91df362e0d42228c3d414c023128d89b369c8d2e3f3220802de1d52f2451fc1e0b6078495bf1fdc6e63bcc32c4bf74b4906bb6e67e0830b77d91c",
   streetAddr2: "",
-  streetAddr2Secret: "0xeaf199bf3ab73261905fe2dbc3c2f3f9",
+  streetAddr2Secret: "0x1418307cc4cd15ecb876a33d1acb11f7",
   streetAddr2Signature:
-    "0x8636c635b3c2cbec878ad44f57419596ddd7d56bc68e91c99bc42705703c24b5484ebbd7ae0a6f34b18f4e795b0f12117ed1b3d0d92b271756b05e025d183c701c",
+    "0x507a7561db883ab20988d126447caa7cdfffcdde0d33f26d6727dd0c9497bcec72b75f7e8547fa965d45a2caad00e508b9c555377f24fc17474a8afbb19450631c",
   subdivision: "",
-  subdivisionSecret: "0x85d21bd6370b148cf164b96b66f0f369",
+  subdivisionSecret: "0xfadce709103d67379ac17cd80cc983cc",
   subdivisionSignature:
-    "0x124bf38ced51d6b21af17b5d85250d2af83b5bbe5d930ba2aa7fa3f250d7962b736ed1b8d7d3446c2f0a6b3c0942d9c68a8105af75a08fcdd14132057cf41b441b",
+    "0xf7764f5fd2af096a5b0472e8a4da871f6b7d356807c892f69e02ce1370f6807804326b158ba686a30b64e00346b3c57060ea328f2d1fb61764bf62c183ea45b61b",
 };
 
 // Display success message, and retrieve user credentials to store in browser
@@ -72,11 +72,12 @@ const Verified = () => {
         const resp = await fetch(
           `http://localhost:3000/register/credentials?secret=${secret}`
         );
+        // Shape of data == { user: completeUser, proofs: proofs }
         const data = await resp.json();
         if (data.error) {
           setError(data.error);
         } else {
-          const credsTemp = data;
+          const credsTemp = data.user;
           await storeCredentials(credsTemp);
           localStorage.removeItem("holoTempSecret");
         }
@@ -105,7 +106,7 @@ const Verified = () => {
   //     "0x99261b497222b2b77198a77c3cbc7c3711a06e1f0f098c69559e69ae92c0f8cb570ceac17319719dd5aaf8fb83db952d537fe1d11abf4acba9a84ef5608132f01b",
   //   secret: "0x4dce2f407bc0599198c8af860417c5a5",
   // });
-  storeCredentials(testCreds);
+  // storeCredentials(testCreds);
 
   return (
     <>
