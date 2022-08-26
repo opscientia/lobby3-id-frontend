@@ -16,7 +16,7 @@ import {
   useDesiredChain,
 } from "./components/chain-switcher";
 import Error from "./components/errors.js";
-import VerificationButton from "./components/atoms/VerificationButton";
+import Verify from "./components/atoms/Verify";
 import Verified from "./components/Verified";
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
         )}
         <Router>
           <Routes>
-            <Route path={"/"} element={<VerificationButton />} />
+            <Route path={"/"} element={<Verify />} />
             <Route path={"/verified"} element={<Verified />} />
           </Routes>
         </Router>

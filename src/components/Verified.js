@@ -56,10 +56,16 @@ const testCreds = {
 const Verified = () => {
   const [error, setError] = useState();
   const [registered, setRegistered] = useState(false);
+  const { signMessage } = useSignMessage();
 
   useEffect(() => {
     getIsHoloRegistered().then((isRegistered) => setRegistered(isRegistered));
   }, []);
+
+  function onTxSigRequest(tx) {
+    // TODO: Probably need to use some method other than signMessage to sign tx.
+    signMessage({ message: tx });
+  }
 
   useEffect(() => {
     if (!localStorage.getItem("holoTempSecret")) {
@@ -78,7 +84,7 @@ const Verified = () => {
           setError(data.error);
         } else {
           const credsTemp = data.user;
-          await storeCredentials(credsTemp);
+          await storeCredentials(credsTemp, onTxSigRequest);
           localStorage.removeItem("holoTempSecret");
         }
       } catch (err) {
@@ -90,23 +96,7 @@ const Verified = () => {
   }, []);
 
   // For testing
-  // storeCredentials({
-  //   firstName: "Alice",
-  //   middleInitial: "C",
-  //   lastName: "Bob",
-  //   streetAddr1: "123",
-  //   streetAddr2: "456",
-  //   city: "New York City",
-  //   subdivision: "NY",
-  //   countryCode: "US",
-  //   postalCode: "789",
-  //   birthdate: "1901-01-01",
-  //   completedAt: "00:00:0000",
-  //   serverSignature:
-  //     "0x99261b497222b2b77198a77c3cbc7c3711a06e1f0f098c69559e69ae92c0f8cb570ceac17319719dd5aaf8fb83db952d537fe1d11abf4acba9a84ef5608132f01b",
-  //   secret: "0x4dce2f407bc0599198c8af860417c5a5",
-  // });
-  // storeCredentials(testCreds);
+  // storeCredentials(testCreds, onTxSigRequest);
 
   return (
     <>

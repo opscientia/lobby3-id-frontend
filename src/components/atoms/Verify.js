@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 
-const VerificationButton = (props) => {
+const Verify = (props) => {
   const { address } = useAccount();
   const { data, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
@@ -66,4 +66,4 @@ const VerificationButton = (props) => {
   );
 };
 
-export default VerificationButton;
+export default Verify;
