@@ -61,13 +61,9 @@ async function encryptCredentials(decryptedCreds) {
 
 /**
  * Encrypt and store the provided credentials with the Holonym browser extension.
- * Upon storage, this function returns a tx that the user can sign to
- * send to a relayer. The tx includes their proof of residence.
  * @param {Object} credentials creds object from Holonym server
- * @param onTxSigRequest Callback function that will be called when the extension
- * responds with a request for the user to sign a transaction
  */
-export async function storeCredentials(credentials, onTxSigRequest) {
+export async function storeCredentials(credentials) {
   const { encryptedCreds, sharded } = await encryptCredentials(credentials);
 
   // Send encrypted credentials to Holonym extension
@@ -76,10 +72,7 @@ export async function storeCredentials(credentials, onTxSigRequest) {
     sharded: sharded,
     credentials: encryptedCreds,
   };
-  const callback = (resp) => {
-    onTxSigRequest(JSON.stringify(resp.tx));
-  };
-  chrome.runtime.sendMessage(extensionId, payload, callback);
+  chrome.runtime.sendMessage(extensionId, payload);
 }
 
 // For case where user hasn't registered prior to attempting to store credentials

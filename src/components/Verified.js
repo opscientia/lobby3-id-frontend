@@ -56,16 +56,10 @@ const testCreds = {
 const Verified = () => {
   const [error, setError] = useState();
   const [registered, setRegistered] = useState(false);
-  const { signMessage } = useSignMessage();
 
   useEffect(() => {
     getIsHoloRegistered().then((isRegistered) => setRegistered(isRegistered));
   }, []);
-
-  function onTxSigRequest(tx) {
-    // TODO: Probably need to use some method other than signMessage to sign tx.
-    signMessage({ message: tx });
-  }
 
   useEffect(() => {
     if (!localStorage.getItem("holoTempSecret")) {
@@ -84,7 +78,7 @@ const Verified = () => {
           setError(data.error);
         } else {
           const credsTemp = data.user;
-          await storeCredentials(credsTemp, onTxSigRequest);
+          await storeCredentials(credsTemp);
           localStorage.removeItem("holoTempSecret");
         }
       } catch (err) {
