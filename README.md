@@ -1,5 +1,11 @@
+# DEPRECATED
+
+This repo is outdated. Its pieces have been moved into the following repo: https://github.com/opscientia/app.holonym.id-frontend
+
 # ⚠️ Please do this before contributing
+
 If you have priviliges to commit to master, please add this to .git/hooks/pre-commit to prompt. Doing so will make it difficult to accidentally commit without completing a checklist. It is important not to commit to the main branch until you have done these manual tests in the checklist, which cannot be easily automated. This will give you the checklist and make sure you've confirmed succesful completion of this checklist before allowing you to commit :)
+
 ```
 #!/bin/sh
 
@@ -17,7 +23,7 @@ if [ "$branch" = "master" ]; then
 	if [ "$response" = "global thermonuclear war commit" ];
 	then
 		echo OK
-	else 
+	else
 		exit 1
 	fi
 fi
