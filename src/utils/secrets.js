@@ -2,7 +2,7 @@
  * Helpers for interacting with Holonym browser extension
  */
 
-const extensionId = "cilbidmppfndfhjafdlngkaabddoofea";
+const extensionId = "oehcghhbelloglknnpdgoeammglelgna";
 
 // Max length of encrypt-able string using RSA-OAEP with SHA256 where
 // modulusLength == 4096: 446 characters.
